@@ -25,6 +25,7 @@ public class ExcelUtils {
 	XSSFSheet sht;
 	Row row;
 	Cell cell;
+	Iterator<Cell> cellIterator;
 
 	public Object[][] getExcelDate(String excelLocation, String sheetName) {
 		try {
@@ -38,7 +39,7 @@ public class ExcelUtils {
 			int totalRow = sht.getLastRowNum();
 			// System.out.println(totalRow);
 			// Get the total active column count in sheet
-			int totalColumn = sht.getRow(0).getLastCellNum();
+			int totalColumn = sht.getRow(2).getLastCellNum();
 			// System.out.println(totalColumn);
 			datasets = new Object[totalRow+1][totalColumn];
 			Iterator<Row> rowIterator = sht.iterator();
@@ -46,15 +47,19 @@ public class ExcelUtils {
 			while (rowIterator.hasNext()) {
 				i++;
 				row = rowIterator.next();
-				Iterator<Cell> cellIterator = row.cellIterator();
+				cellIterator = row.cellIterator();
+				cell = cellIterator.next();
+				if (cell.getStringCellValue().contains("LoginTestData")) 
+				  {
+					 rowIterator.next();
+					 row= rowIterator.next();
+					 i=1;
+				  	}
+				cellIterator = row.cellIterator();
 				int j = 0;
 				while (cellIterator.hasNext()) {
 					j++;
 					cell = cellIterator.next();
-					/*
-					 * if (cell.getStringCellValue().contains("Start")) { i = 0; break; }
-					 */
-
 					switch (cell.getCellType()) {
 
 					case STRING:
@@ -86,7 +91,7 @@ public class ExcelUtils {
 	public static void main(String[] args) {
 		String excelLocation = "D:\\Automation-Projects\\Dole-iSECApplication\\resource\\testData.xlsx";
 		ExcelUtils eu = new ExcelUtils();
-		Object[][] data = eu.getExcelDate(excelLocation, "Login");
+		Object[][] data = eu.getExcelDate(excelLocation, "loginData");
 		System.out.println(data);
 	}
 }
