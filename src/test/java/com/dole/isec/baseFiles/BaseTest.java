@@ -121,6 +121,13 @@ public class BaseTest {
 			e.printStackTrace();
 		}
 	}
+	
+	public static String getFilePath(String path)
+	{
+		String basepath = System.getProperty("user.dir");
+		return basepath+"\\"+path;
+	}
+	
 	@AfterClass
 	public void tearDown()
 	{
@@ -129,6 +136,7 @@ public class BaseTest {
 	}
 	
 	public static void main(String[] args) {
+		//System.out.println(getFilePath(configData("testDataFilePath")));
 		
 	}
 	

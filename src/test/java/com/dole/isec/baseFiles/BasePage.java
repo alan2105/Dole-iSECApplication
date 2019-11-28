@@ -2,15 +2,9 @@
  * 
  */
 package com.dole.isec.baseFiles;
-
-import java.util.List;
-
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
 import com.dole.isec.utilities.Waits;
-
 /**
  * @author alagappan.n
  *
@@ -40,12 +34,6 @@ public BasePage(WebDriver driver )
 			System.out.println("Some exception is occurring while clicking on the element" + element);
 		}
 	}
-	
-//	public void onSelct()
-//	{
-//		
-//	}
-	
 	public void enterText(WebElement element, String text)
 	{ 
 		try {
