@@ -2,24 +2,22 @@
  * 
  */
 package com.dole.isec.utilities;
-
-import java.io.File;
 import java.io.FileInputStream;
-
+import java.util.Arrays;
 import java.util.Iterator;
-
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
+import com.dole.isec.baseFiles.BaseTest;
 /**
  * @author alagappan.n
  *
  */
-public class ExcelUtils {
-
+public class ExcelUtilities {
+private static final Logger log = LogManager.getLogger(ExcelUtilities.class);
 	FileInputStream fis;
 	XSSFWorkbook wb;
 	XSSFSheet sht;
@@ -30,18 +28,19 @@ public class ExcelUtils {
 	public Object[][] getExcelDate(String excelLocation, String sheetName) {
 		try {
 			Object datasets[][] = null;
-			fis = new FileInputStream(new File(excelLocation));
+			fis = new FileInputStream(excelLocation);
 			// Create a workbook instance
 			wb = new XSSFWorkbook(fis);
 			// Get the Sheet from WorkBook
 			sht = wb.getSheet(sheetName);
 			// Get the total active row count in sheet
-			int totalRow = sht.getLastRowNum();
-			// System.out.println(totalRow);
+			int totalRow = sht.getLastRowNum()-2;
+			//log.info("Total number active rows "+totalRow);
+		
 			// Get the total active column count in sheet
 			int totalColumn = sht.getRow(2).getLastCellNum();
 			// System.out.println(totalColumn);
-			datasets = new Object[totalRow+1][totalColumn];
+			datasets = new Object[totalRow][totalColumn];
 			Iterator<Row> rowIterator = sht.iterator();
 			int i = 0;
 			while (rowIterator.hasNext()) {
@@ -72,10 +71,10 @@ public class ExcelUtils {
 						datasets[i - 1][j - 1] = cell.getNumericCellValue();
 						break;
 					case BLANK:
-						System.out.println("Getting cell is blank");
+						log.info("Getting cell is blank");
 						break;
 					default:
-						System.out.println("No matching cell Type");
+						log.info("No matching cell Type");
 						break;
 					}
 
@@ -83,15 +82,15 @@ public class ExcelUtils {
 			}
 			return datasets;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			log.error(e.getMessage());
 		}
 		return null;
 	}
 
 	public static void main(String[] args) {
-		String excelLocation = "D:\\Automation-Projects\\Dole-iSECApplication\\resource\\testData.xlsx";
-		ExcelUtils eu = new ExcelUtils();
-		Object[][] data = eu.getExcelDate(excelLocation, "loginData");
-		System.out.println(data);
+		String excelLocation = BaseTest.configData("testDataFilePath");
+		ExcelUtilities eu = new ExcelUtilities();
+		Object[][] data = eu.getExcelDate(BaseTest.getFilePath(excelLocation), "loginData");
+		System.out.println(Arrays.deepToString(data));
 	}
 }

@@ -1,0 +1,5 @@
+16:21:16.660 [main] INFO  com.dole.isec.utilities.testLogger - This is  Error1 Log
+16:21:16.663 [main] ERROR com.dole.isec.utilities.testLogger - This is  Error Log
+13:34:18 [main] INFO  com.dole.isec.utilities.ExcelUtils - Total number active rows 5
+13:34:18 [main] ERROR com.dole.isec.utilities.ExcelUtils - Total number active rows 5
+16:20:56 [main] ERROR com.dole.isec.utilities.ExcelUtilities - null
