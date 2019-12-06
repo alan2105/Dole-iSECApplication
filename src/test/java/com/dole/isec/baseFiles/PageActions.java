@@ -9,14 +9,14 @@ import com.dole.isec.utilities.Waits;
  * @author alagappan.n
  *
  */
-public class BasePage {
+public class PageActions {
 	
 WebDriver driver;
 WebElement element;
 Waits wait = new Waits(driver) ;
 
 
-public BasePage(WebDriver driver )
+public PageActions(WebDriver driver )
 {
 	this.driver = driver;
 }
@@ -34,7 +34,7 @@ public BasePage(WebDriver driver )
 			System.out.println("Some exception is occurring while clicking on the element" + element);
 		}
 	}
-	public void enterText(WebElement element, String text)
+	public  void enterText(WebElement element, String text)
 	{ 
 		try {
 			wait.waitForElementVisible(element, Long.parseLong((BaseTest.configData("timeOutSeconds"))));
@@ -47,7 +47,7 @@ public BasePage(WebDriver driver )
 		}
 		
 	}
-	public String getText(WebElement element)
+	public  String getText(WebElement element)
 	{
 		String text = null;
 		try {
