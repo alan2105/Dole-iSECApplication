@@ -28,7 +28,7 @@ public class StatusChangeMultipleCreatePage extends BaseTest {
 	private WebElement RequestName;
 	
 	@FindBy(xpath="//div[@id='txtRequestRequestor']")
-	private WebElement RequestorName;
+	private WebElement RequesterName;
 	
 	@FindBy(xpath="//div[@id='txtRequestReqType']")
 	private WebElement RequestType;
@@ -108,10 +108,29 @@ public class StatusChangeMultipleCreatePage extends BaseTest {
 		log.info("Clicked on Status Change Multiple");
 		pageActions.doClick(StatusCahngeMultipleSubMenu);
 	}
+	void clickOnAddEmployeeLink()
+	{
+		
+		if(AddEmployeesLink.isDisplayed()==true) {
+			pageActions.doClick(AddEmployeesLink);
+		}
+		else
+		{
+			log.error("The Add Employee Link is not visible and Element status is"+AddEmployeesLink.isDisplayed());
+		}
+	}
 	
+	void typeEmployeeName(String searchText)
+	{
+		pageActions.doClick(AddEmployeeDropdown);
+		pageActions.enterText(DropdownSearchBox, searchText);
+	}
+
 	void selectEmployeeName(String employeeName)
 	{
-		for(WebElement element:DropdownSearchResult)
+		
+		typeEmployeeName(employeeName);
+		for(WebElement element:pageActions.getAllElements(DropdownSearchResult))
 		{
 			if(element.getText().equalsIgnoreCase(employeeName)){
 			pageActions.doClick(element);
@@ -122,8 +141,8 @@ public class StatusChangeMultipleCreatePage extends BaseTest {
 	List<String> getEmployeeNameList(String searchText)
 	{
 		List<String> EmployeeList= new ArrayList<String>();
-		
-		for(WebElement element:DropdownSearchResult)
+	
+		for(WebElement element:pageActions.getAllElements(DropdownSearchResult))
 		{
 			if(element.getText().contains(searchText)) {
 		 EmployeeList.add(pageActions.getText(element));
@@ -134,8 +153,28 @@ public class StatusChangeMultipleCreatePage extends BaseTest {
 			}
 		}
 		return	EmployeeList;
-		
 	}
+	String getRequesterName()
+	{
+		try {
+		return pageActions.getText(RequesterName);
+		}
+		catch(Exception e)
+		{
+			log.error("Some exception is occuring while geting the Requestor Name");
+			return null;
+		}
+	}
+	String getRequestType()
+	{
+		try {
+			return pageActions.getText(RequestType);
+		}catch(Exception e){
+			log.error("Some exception is occuring while geting the Requestor Name");
+			return null;
+		}
+	}
+	
 	
 	
 	
