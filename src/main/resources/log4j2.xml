@@ -7,7 +7,13 @@
   <Appenders>
       <RollingFile name="File" fileName="${basePath}/prints.log" filePattern="${basePath}/prints-%d{yyyy-MM-dd}.log">
      <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
-      <SizeBasedTriggeringPolicy size="" />
+     <Policies>
+     <SizeBasedTriggeringPolicy size="10 MB" />
+     <!--  OnStartupTriggeringPolicy minSize=1/>-->
+     <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+     <!--<CronTriggeringPolicy schedule="0 0 * * * ?"/>-->
+     </Policies>
+     <DefaultRolloverStrategy max="5"/>
           </RollingFile>
     <Console name="Console" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>

@@ -2,6 +2,7 @@
  * 
  */
 package com.dole.isec.baseFiles;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,8 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import com.dole.isec.pageObjects.StatusChangeMultipleCreatePage;
 import com.dole.isec.utilities.Waits;
 /**
  * @author alagappan.n
@@ -27,8 +26,6 @@ public PageActions(WebDriver driver )
 {
 	this.driver = driver;
 }
-
-
 	public void doClick(WebElement element)
 	{
 		try
@@ -137,5 +134,20 @@ public PageActions(WebDriver driver )
 			log.error("No elemets are found while getting this list of"+elements);
 		}
 		return null;
+	}
+	
+	public void selectDate(String selectedDate)
+	{
+		try
+		{
+			String[] date = selectedDate.split("/");
+			String month = date[0];
+			String day=date[1];
+			String year=date[2];
+			
+			
+		}catch(Exception e) {
+			
+		}
 	}
 }
