@@ -130,7 +130,6 @@ public class StatusChangeMultipleCreatePage extends BaseTest {
 	@FindBy(xpath="//textarea[@id='txtMemo']")
 	private WebElement memoTextbox;
 	
-	
 	@FindBy(xpath = "//div[@id='divAssignedToWrap']//a")
 	private WebElement AssignedToDropdown;
 	
@@ -278,6 +277,18 @@ public class StatusChangeMultipleCreatePage extends BaseTest {
 		}catch(Exception e) {
 			
 		}
+	}
+	
+	void enterMemo(String memoText)
+	{
+		try
+		{
+		pageActions.enterText(memoTextbox, memoText);
+	}catch(Exception e)
+		{
+		log.error("Some exception is occuring while trying to enter the memo text" +e);
+		}
+		
 	}
 }
 	

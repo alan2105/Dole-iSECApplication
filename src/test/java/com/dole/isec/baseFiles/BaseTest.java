@@ -12,6 +12,8 @@ import java.util.Date;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -20,6 +22,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
+
+import com.dole.isec.pageObjects.StatusChangeMultipleCreatePage;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -31,14 +35,14 @@ public class BaseTest {
 	
 	public static WebDriver driver;
 	public static Properties prop;
-	
+	private static final Logger log = LogManager.getLogger(StatusChangeMultipleCreatePage.class);
 	
 	public static void loadData()
 	{
 		try {
 		prop = new Properties();
 	
-			FileInputStream ip = new FileInputStream(System.getProperty("user.dir")+ "/src/test/java/com/dole/isec/config/config.properties");
+			FileInputStream ip = new FileInputStream(getFilePath("\\src\\test\\java\\com\\dole\\isec\\config\\config.properties"));
 			try {
 				prop.load(ip);
 			} catch (IOException e) {
@@ -115,7 +119,7 @@ public class BaseTest {
 		File srcFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
 		String timeStamp = new SimpleDateFormat("dd-MM-YYYY_hh:mm").format(new Date());
 		try {
-			FileUtils.copyFile(srcFile, new File (System.getProperty("user.dir")+ "/resource/Screenshots/"+testCaseName+timeStamp+".png"));
+			FileUtils.copyFile(srcFile, new File (getFilePath("\\resource\\Screenshots\\")+testCaseName+timeStamp+".png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -136,7 +140,7 @@ public class BaseTest {
 	}
 	
 	public static void main(String[] args) {
-		//System.out.println(getFilePath(configData("testDataFilePath")));
+	//System.out.println(getFilePath(configData("testDataFilePath")));
 		
 	}
 	
