@@ -2,6 +2,8 @@
  * 
  */
 package com.dole.isec.baseFiles;
+import java.time.Month;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -135,16 +137,70 @@ public PageActions(WebDriver driver )
 		}
 		return null;
 	}
+	public List<String> getTextOfAllElements(List<WebElement> elements,String value)
+	{
+		List<String> listOfValues = new ArrayList<String>();
+		try {
+			
+			wait.waitToVisibleAllElements(elements, Long.parseLong((BaseTest.configData("timeOutSeconds"))));
+			for(WebElement element:getAllElements(elements))
+			{
+				listOfValues.add(getText(element));
+			}
+			return listOfValues;
+		}
+		catch(Exception e)
+		{
+			log.error("No elemets are found while getting this list of"+elements);
+		}
+		return null;
+	}
 	
-	public void selectDate(String selectedDate)
+	public void clickAnElementFromAllElements(List<WebElement> elements,String value)
+	{
+		try {
+			
+			wait.waitToVisibleAllElements(elements, Long.parseLong((BaseTest.configData("timeOutSeconds"))));
+			for(WebElement element:getAllElements(elements))
+			{
+				if(getText(element).equalsIgnoreCase(value))
+				{
+					doClick(element);
+				}
+			}
+		}
+		catch(Exception e)
+		{
+			log.error("No elemets are found while getting this list of"+elements);
+		}
+	}
+	
+	public void selectDate(String selectedDate,WebElement currentYearElement,WebElement nextArrow,WebElement prevArrow, List<WebElement> dayElements)
 	{
 		try
 		{
 			String[] date = selectedDate.split("/");
-			String month = date[0];
-			String day=date[1];
-			String year=date[2];
-			
+			String selectedMonth = Month.of(Integer.parseInt(date[0])).name();
+			String selectedDay=date[1];
+			String selectedYear=date[2];
+			String currentYear= getText(currentYearElement);
+			if(!currentYear.contains(selectedYear) && !currentYear.contains(selectedMonth)) {
+				do {
+					if(Integer.parseInt(currentYear)< Integer.parseInt(selectedYear))
+					{
+						doClick(prevArrow);
+						
+					}else if(Integer.parseInt(currentYear)> Integer.parseInt(selectedYear))
+					{
+						doClick(nextArrow);
+					}
+				}while(currentYear.contains(selectedYear) && currentYear.contains(selectedMonth));
+				
+				clickAnElementFromAllElements(dayElements,selectedDay);			
+				}
+			else {
+				clickAnElementFromAllElements(dayElements,selectedDay);
+			}
 			
 		}catch(Exception e) {
 			

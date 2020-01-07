@@ -1,5 +1,6 @@
 package com.dole.isec.pageObjects;
 
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,15 +86,53 @@ public class StatusChangeMultipleCreatePage extends BaseTest {
 	private WebElement EditHeatID;
 	
 	@FindBy(id="txtStatusChangeEmpShName")
-	private WebElement EditeHRDivisionDropdown;
+	private WebElement EditHRDivisionDropdown;
 	
 	@FindBy(id="btnEmployeeStatusChangeSave")
-	private WebElement EditSaveButton;
+	private WebElement EditFormSaveButton;
 	
 	@FindBy(xpath="//h3[text()='Edit Employee']/preceding-sibling::button")
 	private WebElement EditFormCancelButton;
 	
+	@FindBy(xpath="(//div[@class='datepicker-months']//th[@class='next'])[1]")
+	private WebElement hireDateNextArrow;
 	
+	@FindBy(xpath="(//div[@class='datepicker-months']//th[@class='prev'])[1]")
+	private WebElement hireDatePrevArrow;
+	
+	@FindBy(xpath="(//div[@class='datepicker-months']//th[@class='prev']/following-sibling::th[1])[1]")
+	private WebElement hireDateCurrentMonthYear;
+	
+	@FindBy(xpath="(//div[@class='datepicker-days']//tbody)[1]//td[not(self::td[@class='day old' or @class='day new'])]")
+	private List<WebElement> hireDateDaysInMDatePicker;
+	
+	@FindBy(xpath="(//div[@class='datepicker-months']//tbody//td)[1]/span")
+	private List<WebElement> hireDateMonthsInDatePicker;
+	
+	@FindBy(xpath="(//div[@class='datepicker-months']//th[@class='next'])[2]")
+	private WebElement endDateNextArrow;
+	
+	@FindBy(xpath="(//div[@class='datepicker-months']//th[@class='prev'])[2]")
+	private WebElement endDatePrevArrow;
+	
+	@FindBy(xpath="(//div[@class='datepicker-months']//th[@class='prev']/following-sibling::th[1])[2]")
+	private WebElement endDateCurrentMonthYear;
+	
+	@FindBy(xpath="(//div[@class='datepicker-days']//tbody)[2]//td[not(self::td[@class='day old' or @class='day new'])]")
+	private List<WebElement> endDateDaysInMDatePicker;
+	
+	@FindBy(xpath="(//div[@class='datepicker-months']//tbody//td)[2]/span")
+	private List<WebElement> endDateMonthsInDatePicker;
+	
+	@FindBy(xpath="//table[@id='tblEmpStatusChangePV']/tbody/tr")
+	private List<WebElement> SelectedStatusChangeEmp;
+	
+	@FindBy(xpath="//textarea[@id='txtMemo']")
+	private WebElement memoTextbox;
+	
+	
+	@FindBy(xpath = "//div[@id='divAssignedToWrap']//a")
+	private WebElement AssignedToDropdown;
 	
 	
 	void clickOnRequestMenu()
@@ -175,18 +214,86 @@ public class StatusChangeMultipleCreatePage extends BaseTest {
 		}
 	}
 	
+	public void selectHireDate(String selectedDate)
+	{
+		try
+		{
+			String[] date = selectedDate.split("/");
+			String selectedMonth = Month.of(Integer.parseInt(date[0])).name();
+			String selectedDay=date[1];
+			String selectedYear=date[2];
+			String currentYear= pageActions.getText(hireDateCurrentMonthYear);
+			if(!currentYear.contains(selectedYear)) {
+				do {
+					pageActions.doClick(hireDateCurrentMonthYear);
+					if(Integer.parseInt(currentYear)< Integer.parseInt(selectedYear))
+					{
+						pageActions.doClick(hireDatePrevArrow);
+						
+					}else if(Integer.parseInt(currentYear)> Integer.parseInt(selectedYear))
+					{
+						pageActions.doClick(hireDateNextArrow);
+					}
+				}while(currentYear.contains(selectedYear));
+				pageActions.clickAnElementFromAllElements(hireDateMonthsInDatePicker,selectedMonth);;
+				pageActions.clickAnElementFromAllElements(hireDateDaysInMDatePicker,selectedDay);			
+				}
+			else {
+				pageActions.clickAnElementFromAllElements(hireDateDaysInMDatePicker,selectedDay);
+			}
+			
+		}catch(Exception e) {
+			
+		}
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public void selectEndDate(String selectedDate)
+	{
+		try
+		{
+			String[] date = selectedDate.split("/");
+			String selectedMonth = Month.of(Integer.parseInt(date[0])).name();
+			String selectedDay=date[1];
+			String selectedYear=date[2];
+			String currentYear= pageActions.getText(hireDateCurrentMonthYear);
+			if(!currentYear.contains(selectedYear)) {
+				do {
+					pageActions.doClick(hireDateCurrentMonthYear);
+					if(Integer.parseInt(currentYear)< Integer.parseInt(selectedYear))
+					{
+						pageActions.doClick(hireDatePrevArrow);
+						
+					}else if(Integer.parseInt(currentYear)> Integer.parseInt(selectedYear))
+					{
+						pageActions.doClick(hireDateNextArrow);
+					}
+				}while(currentYear.contains(selectedYear));
+				pageActions.clickAnElementFromAllElements(hireDateMonthsInDatePicker,selectedMonth);;
+				pageActions.clickAnElementFromAllElements(hireDateDaysInMDatePicker,selectedDay);			
+				}
+			else {
+				pageActions.clickAnElementFromAllElements(hireDateDaysInMDatePicker,selectedDay);
+			}
+			
+		}catch(Exception e) {
+			
+		}
+	}
 }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
